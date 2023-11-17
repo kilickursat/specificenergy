@@ -8,7 +8,7 @@ st.set_page_config(layout='wide')
 # Load the trained PyCaret model
 @st.cache(allow_output_mutation=True)
 def load_trained_model():
-    return load_model('path_to_your_model_file.pkl')
+    return load_model('specific-energy (1)')
 
 model = load_trained_model()
 
