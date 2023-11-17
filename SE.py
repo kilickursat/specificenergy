@@ -73,17 +73,28 @@ def get_batch_input():
         return batch_input
     return None
 
-# Function to make predictions
 def predict(input_data):
     if input_data is not None:
-        # Check if all required features are present
-        expected_features = model.get_features_names()
-        missing_features = set(expected_features).difference(input_data.columns)
-        if missing_features:
-            error_msg = f"Missing required features: {','.join(missing_features)}"
-            raise ValueError(error_msg)
+        try:
+            # Check if all required features are present
+            expected_features = model.feature_importances_.nonzero()[0]  # Get feature indices
+            feature_names = model.get_feature_names()  # Get feature names
+            missing_features = set(feature_names[expected_features]).difference(input_data.columns)
+            if missing_features:
+                error_msg = f"Missing required features: {','.join(missing_features)}"
+                raise ValueError(error_msg)
 
-        prediction = model.predict(input_data)
+            prediction = model.predict(input_data)
+            return prediction
+        except AttributeError as e:
+            # Handle model access error
+            if "get_features_names" in str(e):
+                error_msg = "Error accessing model features. Please ensure the model is loaded correctly."
+                st.error(error_msg)
+            else:
+                raise e  # Re-raise the original error
+    return None
+
 
 
 # Function to render the different pages
