@@ -54,7 +54,7 @@ def get_online_input():
     online_input = {}
     for parameter, (min_val, max_val) in parameter_ranges.items():
         online_input[parameter] = st.sidebar.slider(parameter, min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    
+
     return pd.DataFrame(online_input, index=[0])
 
 
@@ -76,9 +76,15 @@ def get_batch_input():
 # Function to make predictions
 def predict(input_data):
     if input_data is not None:
+        # Check if all required features are present
+        expected_features = model.get_features_names()
+        missing_features = set(expected_features).difference(input_data.columns)
+        if missing_features:
+            error_msg = f"Missing required features: {','.join(missing_features)}"
+            raise ValueError(error_msg)
+
         prediction = model.predict(input_data)
-        return prediction
-    return None
+
 
 # Function to render the different pages
 def render_pages():
