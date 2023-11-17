@@ -48,8 +48,7 @@ def get_online_input():
         'Gate opening (%)': (0.0, 67.3),
         'Mud injection pressure (MPa)': (0.01, 1.6),
         'Add mud flow (L/min)': (0.0, 58.3),
-        'Back in injection rate (%)': (0.0, 560.6),
-        'SE (MJ/m^3)': (0.0, 98.2)
+        'Back in injection rate (%)': (0.0, 560.6)
     }
 
     online_input = {}
