@@ -27,26 +27,25 @@ def render_homepage():
 
 # Function to get user input from sliders based on provided parameters and descriptive statistics
 def get_online_input():
-    st.sidebar.header('Online Input Parameters')
-    
-    Pressure gauge 1 (kPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Pressure gauge 2 (kPa) = st.sidebar.slider ('Pressure gauge 2 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Pressure gauge 3 (kPa) = st.sidebar.slider ('Pressure gauge 3 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Pressure gauge 4 (kPa) = st.sidebar.slider ('Pressure gauge 4 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Digging velocity left (mm/min) = st.sidebar.slider ('Digging velocity left (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Digging velocity right (mm/min) = st.sidebar.slider ('Digging velocity right (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    advancement speed = st.sidebar.slider ('advancement speed', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Shield jack stroke left (mm) = st.sidebar.slider ('Shield jack stroke left (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Shield jack stroke right (mm) = st.sidebar.slider ('Shield jack stroke right (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Total thrust (kN) = st.sidebar.slider ('Total thrust (kN)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Cutter torque (kN.m) = st.sidebar.slider ('Cutter torque (kN.m)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Cutterhead rotation speed (rpm) = st.sidebar.slider ('Cutterhead rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Screw pressure (MPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Screw rotation speed (rpm) = st.sidebar.slider ('Screw rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    gate opening (%) = st.sidebar.slider ('gate opening (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Mud injection pressure (MPa)= st.sidebar.slider ('Mud injection pressure (MPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Add mud flow (L/min) = st.sidebar.slider ('Add mud flow (L/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Back in injection rate (%) = st.sidebar.slider ('Back in injection rate (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+    if add_selectbox == "Online":
+        Pressure gauge 1 (kPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Pressure gauge 2 (kPa) = st.sidebar.slider ('Pressure gauge 2 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Pressure gauge 3 (kPa) = st.sidebar.slider ('Pressure gauge 3 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Pressure gauge 4 (kPa) = st.sidebar.slider ('Pressure gauge 4 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Digging velocity left (mm/min) = st.sidebar.slider ('Digging velocity left (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Digging velocity right (mm/min) = st.sidebar.slider ('Digging velocity right (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        advancement speed = st.sidebar.slider ('advancement speed', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Shield jack stroke left (mm) = st.sidebar.slider ('Shield jack stroke left (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Shield jack stroke right (mm) = st.sidebar.slider ('Shield jack stroke right (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Total thrust (kN) = st.sidebar.slider ('Total thrust (kN)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Cutter torque (kN.m) = st.sidebar.slider ('Cutter torque (kN.m)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Cutterhead rotation speed (rpm) = st.sidebar.slider ('Cutterhead rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Screw pressure (MPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Screw rotation speed (rpm) = st.sidebar.slider ('Screw rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        gate opening (%) = st.sidebar.slider ('gate opening (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Mud injection pressure (MPa)= st.sidebar.slider ('Mud injection pressure (MPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Add mud flow (L/min) = st.sidebar.slider ('Add mud flow (L/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+        Back in injection rate (%) = st.sidebar.slider ('Back in injection rate (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
 
     input_dict = {'Pressure gauge 1 (kPa)': Pressure gauge 1 (kPa),
         'Pressure gauge 2 (kPa)':Pressure gauge 2 (kPa) ,
