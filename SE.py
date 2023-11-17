@@ -27,56 +27,37 @@ def render_homepage():
 
 # Function to get user input from sliders based on provided parameters and descriptive statistics
 def get_online_input():
-    if add_selectbox == "Online":
-        Pressure gauge 1 (kPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Pressure gauge 2 (kPa) = st.sidebar.slider ('Pressure gauge 2 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Pressure gauge 3 (kPa) = st.sidebar.slider ('Pressure gauge 3 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Pressure gauge 4 (kPa) = st.sidebar.slider ('Pressure gauge 4 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Digging velocity left (mm/min) = st.sidebar.slider ('Digging velocity left (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Digging velocity right (mm/min) = st.sidebar.slider ('Digging velocity right (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        advancement speed = st.sidebar.slider ('advancement speed', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Shield jack stroke left (mm) = st.sidebar.slider ('Shield jack stroke left (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Shield jack stroke right (mm) = st.sidebar.slider ('Shield jack stroke right (mm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Total thrust (kN) = st.sidebar.slider ('Total thrust (kN)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Cutter torque (kN.m) = st.sidebar.slider ('Cutter torque (kN.m)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Cutterhead rotation speed (rpm) = st.sidebar.slider ('Cutterhead rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Screw pressure (MPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Screw rotation speed (rpm) = st.sidebar.slider ('Screw rotation speed (rpm)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        gate opening (%) = st.sidebar.slider ('gate opening (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Mud injection pressure (MPa)= st.sidebar.slider ('Mud injection pressure (MPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Add mud flow (L/min) = st.sidebar.slider ('Add mud flow (L/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-        Back in injection rate (%) = st.sidebar.slider ('Back in injection rate (%)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+    st.sidebar.header('Online Input Parameters')
 
-    input_dict = {'Pressure gauge 1 (kPa)': Pressure gauge 1 (kPa),
-        'Pressure gauge 2 (kPa)':Pressure gauge 2 (kPa) ,
-        'Pressure gauge 3 (kPa)': Pressure gauge 3 (kPa),
-        'Pressure gauge 4 (kPa)':Pressure gauge 4 (kPa) ,
-        'Digging velocity left (mm/min)': Digging velocity left (mm/min),
-        'Digging velocity right (mm/min)':Digging velocity right (mm/min) ,
-        'advancement speed':advancement speed ,
-        'Shield jack stroke left (mm)':Shield jack stroke left (mm) ,
-        'Shield jack stroke right (mm)':Shield jack stroke right (mm) ,
-        'Propulsion pressure (MPa)':Propulsion pressure (MPa) ,
-        'Total thrust (kN)': Total thrust (kN),
-        'Cutter torque (kN.m)':Cutter torque (kN.m) ,
-        'Cutterhead rotation speed (rpm)':Cutterhead rotation speed (rpm) ,
-        'Screw pressure (MPa)':Screw pressure (MPa) ,
-        'Screw rotation speed (rpm)':Screw rotation speed (rpm) ,
-        'gate opening (%)': gate opening (%),
-        'Mud injection pressure (MPa)':Mud injection pressure (MPa) ,
-        'Add mud flow (L/min)': Add mud flow (L/min),
-        'Back in injection rate (%)':Back in injection rate (%) }
+    parameter_ranges = {
+        'Pressure gauge 1 (kPa)': (5.0, 210.3),
+        'Pressure gauge 2 (kPa)': (0.0, 259.0),
+        'Pressure gauge 3 (kPa)': (0.0, 175.4),
+        'Pressure gauge 4 (kPa)': (0.7, 426.9),
+        'Digging velocity left (mm/min)': (0.0, 336.0),
+        'Digging velocity right (mm/min)': (0.0, 239.0),
+        'advancement speed': (0.0, 287.5),
+        'Shield jack stroke left (mm)': (71.0, 3504.2),
+        'Shield jack stroke right (mm)': (98.0, 5946.1),
+        'Propulsion pressure (MPa)': (0.0, 31.5),
+        'Total thrust (kN)': (0.0, 7160.7),
+        'Cutter torque (kN.m)': (0.0, 694.9),
+        'Cutterhead rotation speed (rpm)': (0.0, 7.0),
+        'Screw pressure (MPa)': (-114.6, 7.7),
+        'Screw rotation speed (rpm)': (-1.2, 78.3),
+        'gate opening (%)': (0.0, 67.3),
+        'Mud injection pressure (MPa)': (0.01, 1.6),
+        'Add mud flow (L/min)': (0.0, 58.3),
+        'Back in injection rate (%)': (0.0, 560.6)
+    }
+    online_input = {}
+    for parameter, (min_val, max_val) in parameter_ranges.items():
+        online_input[parameter] = st.sidebar.slider(parameter, min_val, max_val, (min_val + max_val) / 2)
 
-    input_df = pd.DataFrame([input_dict])
-
-    if st.button("Predict"):
-        output = predict(model=model, input_df=input_df)
-        output = '$' + str(output)
-
-        st.success('The output is {}'.format(output))
+    return pd.DataFrame([online_input])
 
 # Function to make predictions
-def predict(input_df):
+def predict(model, input_df):
     predictions_df = predict_model(estimator=model, data=input_df)
     predictions = predictions_df['Label'][0]
     return predictions
@@ -89,8 +70,8 @@ def render_pages():
         online_input_df = get_online_input()
         st.subheader('Online User Input:')
         st.write(online_input_df)
-        online_prediction = predict(online_input_df)
-        if online_prediction is not None:
+        if st.button("Predict"):
+            online_prediction = predict(model, online_input_df)
             st.subheader('Online Prediction:')
             st.write(online_prediction)
 
