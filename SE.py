@@ -51,7 +51,7 @@ def get_online_input():
         'Back in injection rate (%)': (0.0, 560.6)
     }
 
-    }
+    
 
     online_input = {}
     for parameter, (min_val, max_val) in parameter_ranges.items():
