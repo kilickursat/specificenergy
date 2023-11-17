@@ -45,7 +45,7 @@ def get_online_input():
         'Cutterhead rotation speed (rpm)': (0.0, 7.0),
         'Screw pressure (MPa)': (-114.6, 7.7),
         'Screw rotation speed (rpm)': (-1.2, 78.3),
-        'Gate opening (%)': (0.0, 67.3),
+        'gate opening (%)': (0.0, 67.3),
         'Mud injection pressure (MPa)': (0.01, 1.6),
         'Add mud flow (L/min)': (0.0, 58.3),
         'Back in injection rate (%)': (0.0, 560.6)
