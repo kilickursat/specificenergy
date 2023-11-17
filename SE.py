@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from pycaret.regression import load_model
+from pycaret.regression import load_model, predict_model
 
 # Set page layout to 'wide'
 st.set_page_config(layout='wide')
@@ -51,17 +51,15 @@ def get_online_input():
         'Back in injection rate (%)': (0.0, 560.6)
     }
 
-    
-
     online_input = {}
     for parameter, (min_val, max_val) in parameter_ranges.items():
         online_input[parameter] = st.sidebar.slider(parameter, min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
 
     return pd.DataFrame(online_input, index=[0])
 
-
-def predict(model, input_df):
-    predictions_df = predict_model(estimator=model, data=online_input)
+# Function to make predictions
+def predict(input_df):
+    predictions_df = predict_model(estimator=model, data=input_df)
     predictions = predictions_df['Label'][0]
     return predictions
 
@@ -88,23 +86,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-"""
-def predict(input_data):
-    if input_data is not None:
-        try:
-            prediction = model.predict(input_data)
-            return prediction
-        except AttributeError as e:
-            # Handle model access error
-            if "get_feature_names" in str(e):
-                error_msg = "Error accessing model features. Please ensure the model is loaded correctly."
-                st.error(error_msg)
-            else:
-                raise e  # Re-raise the original error
-    return None
-"""
