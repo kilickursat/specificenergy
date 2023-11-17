@@ -29,8 +29,8 @@ def render_homepage():
 def get_online_input():
     st.sidebar.header('Online Input Parameters')
     
-    Pressure_gauge_1 (kPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
-    Pressure_gauge_2 (kPa) = st.sidebar.slider ('Pressure gauge 2 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+    Pressure gauge 1 (kPa) = st.sidebar.slider ('Pressure gauge 1 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+    Pressure gauge 2 (kPa) = st.sidebar.slider ('Pressure gauge 2 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
     Pressure gauge 3 (kPa) = st.sidebar.slider ('Pressure gauge 3 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
     Pressure gauge 4 (kPa) = st.sidebar.slider ('Pressure gauge 4 (kPa)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
     Digging velocity left (mm/min) = st.sidebar.slider ('Digging velocity left (mm/min)', min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
@@ -66,7 +66,7 @@ def get_online_input():
         'gate opening (%)': gate opening (%),
         'Mud injection pressure (MPa)':Mud injection pressure (MPa) ,
         'Add mud flow (L/min)': Add mud flow (L/min),
-        'Back in injection rate (%)':Back in injection rate (%) 
+        'Back in injection rate (%)':Back in injection rate (%) }
 
     input_df = pd.DataFrame([input_dict])
 
