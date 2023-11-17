@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from pycaret.regression import load_model
+from pycaret.regression import load_model, predict_model
 
 # Set page layout to 'wide'
 st.set_page_config(layout='wide')
