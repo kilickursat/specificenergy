@@ -25,18 +25,39 @@ def render_homepage():
     st.title('TBM Regression Model Prediction')
     st.write('Please select an option from the sidebar.')
 
-# Function to get user input from sliders
+# Function to get user input from sliders based on provided parameters and descriptive statistics
 def get_online_input():
     st.sidebar.header('Online Input Parameters')
-    # Define sliders for online input
-    parameter1 = st.sidebar.slider('Parameter 1', min_value=0.0, max_value=100.0, value=50.0)
-    parameter2 = st.sidebar.slider('Parameter 2', min_value=0.0, max_value=100.0, value=50.0)
-    
-    online_input = {
-        'Parameter 1': parameter1,
-        'Parameter 2': parameter2
+
+    parameter_ranges = {
+        'Pressure gauge 1 (kPa)': (5.0, 210.3),
+        'Pressure gauge 2 (kPa)': (0.0, 259.0),
+        'Pressure gauge 3 (kPa)': (0.0, 175.4),
+        'Pressure gauge 4 (kPa)': (0.7, 426.9),
+        'Digging velocity left (mm/min)': (0.0, 336.0),
+        'Digging velocity right (mm/min)': (0.0, 239.0),
+        'Advancement speed': (0.0, 287.5),
+        'Shield jack stroke left (mm)': (71.0, 3504.2),
+        'Shield jack stroke right (mm)': (98.0, 5946.1),
+        'Propulsion pressure (MPa)': (0.0, 31.5),
+        'Total thrust (kN)': (0.0, 7160.7),
+        'Cutter torque (kN.m)': (0.0, 694.9),
+        'Cutterhead rotation speed (rpm)': (0.0, 7.0),
+        'Screw pressure (MPa)': (-114.6, 7.7),
+        'Screw rotation speed (rpm)': (-1.2, 78.3),
+        'Gate opening (%)': (0.0, 67.3),
+        'Mud injection pressure (MPa)': (0.01, 1.6),
+        'Add mud flow (L/min)': (0.0, 58.3),
+        'Back in injection rate (%)': (0.0, 560.6),
+        'SE (MJ/m^3)': (0.0, 98.2)
     }
+
+    online_input = {}
+    for parameter, (min_val, max_val) in parameter_ranges.items():
+        online_input[parameter] = st.sidebar.slider(parameter, min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
+    
     return pd.DataFrame(online_input, index=[0])
+
 
 # Function to get user input from uploaded file
 def get_batch_input():
