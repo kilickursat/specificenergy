@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from pycaret.regression import load_model, predict_model
+from pycaret.regression import load_model
 
 # Set page layout to 'wide'
 st.set_page_config(layout='wide')
@@ -51,51 +51,27 @@ def get_online_input():
         'Back in injection rate (%)': (0.0, 560.6)
     }
 
+    }
+
     online_input = {}
     for parameter, (min_val, max_val) in parameter_ranges.items():
         online_input[parameter] = st.sidebar.slider(parameter, min_value=min_val, max_value=max_val, value=(min_val + max_val) / 2)
 
     return pd.DataFrame(online_input, index=[0])
 
-
-# Function to get user input from uploaded file
-def get_batch_input():
-    st.sidebar.header('Batch Input Data')
-    uploaded_file = st.sidebar.file_uploader('Upload file', type=['csv', 'xlsx'])
-    if uploaded_file is not None:
-        if uploaded_file.name.endswith('.csv'):
-            batch_input = pd.read_csv(uploaded_file)
-        elif uploaded_file.name.endswith(('.xls', '.xlsx')):
-            batch_input = pd.read_excel(uploaded_file)
-        else:
-            st.sidebar.warning('Uploaded file format not supported. Please upload a CSV or Excel file.')
-            return None
-        return batch_input
-    return None
-
 def predict(input_data):
     if input_data is not None:
         try:
-            # Check if all required features are present
-            expected_features = model.feature_importances_.nonzero()[0]  # Get feature indices
-            feature_names = model.get_feature_names()  # Get feature names
-            missing_features = set(feature_names[expected_features]).difference(input_data.columns)
-            if missing_features:
-                error_msg = f"Missing required features: {','.join(missing_features)}"
-                raise ValueError(error_msg)
-
             prediction = model.predict(input_data)
             return prediction
         except AttributeError as e:
             # Handle model access error
-            if "get_features_names" in str(e):
+            if "get_feature_names" in str(e):
                 error_msg = "Error accessing model features. Please ensure the model is loaded correctly."
                 st.error(error_msg)
             else:
                 raise e  # Re-raise the original error
     return None
-
-
 
 # Function to render the different pages
 def render_pages():
@@ -109,20 +85,11 @@ def render_pages():
         if online_prediction is not None:
             st.subheader('Online Prediction:')
             st.write(online_prediction)
-    elif session_state.page == "Batch Input":
-        batch_input_df = get_batch_input()
-        if batch_input_df is not None:
-            st.subheader('Batch Input Data:')
-            st.write(batch_input_df)
-            batch_prediction = predict(batch_input_df)
-            if batch_prediction is not None:
-                st.subheader('Batch Predictions:')
-                st.write(batch_prediction)
 
 # Create the Streamlit web app
 def main():
     st.sidebar.title('Navigation')
-    pages = ["Home", "Online Input", "Batch Input"]
+    pages = ["Home", "Online Input"]
     session_state.page = st.sidebar.radio("Go to", pages, index=0)
 
     render_pages()
