@@ -2,10 +2,13 @@ import streamlit as st
 import pandas as pd
 from pycaret.regression import load_model
 
+# Set page layout to 'wide'
+st.set_page_config(layout='wide')
+
 # Load the trained PyCaret model
 @st.cache(allow_output_mutation=True)
 def load_trained_model():
-    return load_model('specific-energy (1)')
+    return load_model('path_to_your_model_file.pkl')
 
 model = load_trained_model()
 
@@ -16,9 +19,6 @@ class SessionState:
 
 # Initialize SessionState
 session_state = SessionState()
-
-# Set page layout to 'wide'
-st.set_page_config(layout='wide')
 
 # Define function to render the home page
 def render_homepage():
