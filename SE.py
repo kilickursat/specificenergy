@@ -59,19 +59,11 @@ def get_online_input():
 
     return pd.DataFrame(online_input, index=[0])
 
-def predict(input_data):
-    if input_data is not None:
-        try:
-            prediction = model.predict(input_data)
-            return prediction
-        except AttributeError as e:
-            # Handle model access error
-            if "get_feature_names" in str(e):
-                error_msg = "Error accessing model features. Please ensure the model is loaded correctly."
-                st.error(error_msg)
-            else:
-                raise e  # Re-raise the original error
-    return None
+
+def predict(model, input_df):
+    predictions_df = predict_model(estimator=model, data=input_df)
+    predictions = predictions_df['Label'][0]
+    return predictions
 
 # Function to render the different pages
 def render_pages():
@@ -96,3 +88,23 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+"""
+def predict(input_data):
+    if input_data is not None:
+        try:
+            prediction = model.predict(input_data)
+            return prediction
+        except AttributeError as e:
+            # Handle model access error
+            if "get_feature_names" in str(e):
+                error_msg = "Error accessing model features. Please ensure the model is loaded correctly."
+                st.error(error_msg)
+            else:
+                raise e  # Re-raise the original error
+    return None
+"""
