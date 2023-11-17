@@ -61,7 +61,7 @@ def get_online_input():
 
 
 def predict(model, input_df):
-    predictions_df = predict_model(estimator=model, data=input_df)
+    predictions_df = predict_model(estimator=model, data=online_input)
     predictions = predictions_df['Label'][0]
     return predictions
 
