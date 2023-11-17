@@ -36,7 +36,7 @@ def get_online_input():
         'Pressure gauge 4 (kPa)': (0.7, 426.9),
         'Digging velocity left (mm/min)': (0.0, 336.0),
         'Digging velocity right (mm/min)': (0.0, 239.0),
-        'Advancement speed': (0.0, 287.5),
+        'advancement speed': (0.0, 287.5),
         'Shield jack stroke left (mm)': (71.0, 3504.2),
         'Shield jack stroke right (mm)': (98.0, 5946.1),
         'Propulsion pressure (MPa)': (0.0, 31.5),
