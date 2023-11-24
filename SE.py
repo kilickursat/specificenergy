@@ -56,7 +56,7 @@ if page == 'Online':
 
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
-    
+
     # Function to predict specific energy based on user inputs
     def predict_specific_energy(operational_params):
         input_data = pd.DataFrame(operational_params, index=[0])
@@ -67,20 +67,7 @@ elif page == 'Visualization':
     if 'user_inputs' in locals():
         predicted_energy = predict_specific_energy(user_inputs)
 
-        # Prediction Score Plot
-        fig, ax = plt.subplots()
-        sns.histplot(predicted_energy, kde=True, ax=ax)
-        st.pyplot(fig)
-
-        # Prediction Error Plot (Residuals)
-        fig, ax = plt.subplots()
-        sns.residplot(x=np.linspace(0, 1, len(predicted_energy)), y=predicted_energy, lowess=True, ax=ax)
-        st.pyplot(fig)
-
         # Feature Importance (if available from your model)
-        # Replace this with your actual feature importance calculation based on your_data
-        # Replace 'feature_importance' with the actual feature importance data from your model
-        # Assuming you have a model attribute 'feature_importances_' containing feature importance values
         if hasattr(model, 'feature_importances_'):
             feature_importance = model.feature_importances_
             fig, ax = plt.subplots()
@@ -91,6 +78,30 @@ elif page == 'Visualization':
             st.pyplot(fig)
         else:
             st.write("Feature importance is not available for this model.")
+
+        # Predicted vs. Actual Plot
+        # Assuming 'target_column' is the name of your target column in the dataset
+        target_column = 'SE (MJ/m^3)'  # Replace 'Specific Energy' with your actual target column name
+        fig, ax = plt.subplots()
+        sns.scatterplot(x=predicted_energy, y=your_data[target_column], ax=ax)
+        ax.set_xlabel('Predicted Specific Energy')
+        ax.set_ylabel('Actual Specific Energy')
+        ax.set_title('Predicted vs Actual')
+        st.pyplot(fig)
+
+        # Learning Curve
+        # Replace 'X' and 'y' with your feature matrix and target variable
+        train_sizes, train_scores, test_scores = learning_curve(model, X, y, cv=5)
+        train_scores_mean = np.mean(train_scores, axis=1)
+        test_scores_mean = np.mean(test_scores, axis=1)
+
+        fig, ax = plt.subplots()
+        plt.plot(train_sizes, train_scores_mean, label='Training Score')
+        plt.plot(train_sizes, test_scores_mean, label='Cross-Validation Score')
+        plt.xlabel('Training examples')
+        plt.ylabel('Score')
+        plt.title('Learning Curve')
+        plt.legend()
+        st.pyplot(fig)
     else:
         st.write("Please input TBM parameters in the 'Online' section first.")
-
