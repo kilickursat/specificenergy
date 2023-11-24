@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from pycaret.regression import *
-from pycaret.regression import setup, interpret_model
+
 # Set up the PyCaret environment
 setup()
 # Load the trained PyCaret model
