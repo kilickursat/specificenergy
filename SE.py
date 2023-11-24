@@ -67,16 +67,16 @@ elif page == 'Visualization':
 
         # Plot feature importance
         st.write('Feature Importance Plot')
-        plot_model(model, plot='feature', verbose=False)
+        plot_model(model, plot='feature', verbose=False, display_format='streamlit')
 
         # Plot residuals
         st.write('Residuals Plot')
-        plot_model(model, plot='residuals', verbose=False)
+        plot_model(model, plot='residuals', verbose=False, display_format='streamlit')
 
         # Plot learning curve (if the model supports it)
         st.write('Learning Curve')
         try:
-            plot_model(model, plot='learning', verbose=False)
+            plot_model(model, plot='learning', verbose=False,display_format='streamlit')
         except Exception as e:
             st.write("Learning Curve is not available for this model.")
 
