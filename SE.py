@@ -25,7 +25,7 @@ if page == 'Online':
         'Digging velocity right (mm/min)': (0, 1000, 500),
         'advancement speed': (0, 100, 50),
         'Shield jack stroke left (mm)': (0, 1000, 500),
-        'Shield jack stroke right (mm)': (0, 1000, 500),
+        'Shield jack stroke rigth (mm)': (0, 1000, 500),
         'Propulsion pressure (MPa)': (0, 10, 5),
         'Total thrust (kN)': (0, 1000, 500),
         'Cutter torque (kN.m)': (0, 1000, 500),
