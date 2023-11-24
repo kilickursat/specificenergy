@@ -53,6 +53,7 @@ if page == 'Online':
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
 
+
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
     
@@ -62,31 +63,34 @@ elif page == 'Visualization':
         prediction = model.predict(input_data)
         return prediction
 
-    # Make predictions using user inputs
-    predicted_energy = predict_specific_energy(user_inputs)
+    # Check if 'user_inputs' is defined and make predictions
+    if 'user_inputs' in locals():
+        predicted_energy = predict_specific_energy(user_inputs)
 
-    # Prediction Score Plot
-    fig, ax = plt.subplots()
-    sns.histplot(predicted_energy, kde=True, ax=ax)
-    st.pyplot(fig)
-
-    # Prediction Error Plot (Residuals)
-    fig, ax = plt.subplots()
-    sns.residplot(x=np.linspace(0, 1, len(predicted_energy)), y=predicted_energy, lowess=True, ax=ax)
-    st.pyplot(fig)
-
-    # Feature Importance (if available from your model)
-    # Replace this with your actual feature importance calculation based on your_data
-    # Replace 'feature_importance' with the actual feature importance data from your model
-    # Assuming you have a model attribute 'feature_importances_' containing feature importance values
-    if hasattr(model, 'feature_importances_'):
-        feature_importance = model.feature_importances_
+        # Prediction Score Plot
         fig, ax = plt.subplots()
-        sns.barplot(x=user_inputs.keys(), y=feature_importance, ax=ax)  # Plot feature importance
-        ax.set_title('Feature Importance')
-        ax.set_ylabel('Importance')
-        ax.set_xlabel('Features')
+        sns.histplot(predicted_energy, kde=True, ax=ax)
         st.pyplot(fig)
+
+        # Prediction Error Plot (Residuals)
+        fig, ax = plt.subplots()
+        sns.residplot(x=np.linspace(0, 1, len(predicted_energy)), y=predicted_energy, lowess=True, ax=ax)
+        st.pyplot(fig)
+
+        # Feature Importance (if available from your model)
+        # Replace this with your actual feature importance calculation based on your_data
+        # Replace 'feature_importance' with the actual feature importance data from your model
+        # Assuming you have a model attribute 'feature_importances_' containing feature importance values
+        if hasattr(model, 'feature_importances_'):
+            feature_importance = model.feature_importances_
+            fig, ax = plt.subplots()
+            sns.barplot(x=user_inputs.keys(), y=feature_importance, ax=ax)  # Plot feature importance
+            ax.set_title('Feature Importance')
+            ax.set_ylabel('Importance')
+            ax.set_xlabel('Features')
+            st.pyplot(fig)
+        else:
+            st.write("Feature importance is not available for this model.")
     else:
-        st.write("Feature importance is not available for this model.")
+        st.write("Please input TBM parameters in the 'Online' section first.")
 
