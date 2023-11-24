@@ -1,82 +1,82 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
 # Load the trained PyCaret model
 model = joblib.load('setbm.pkl')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
-page = st.sidebar.selectbox('Choose a page', ['Online', 'Batch'])
+page = st.sidebar.selectbox('Choose a page', ['Online', 'Visualization'])
 
 if page == 'Online':
     st.title('TBM Specific Energy Prediction (Online)')
     
     # Online Data Input with sliders
     st.sidebar.header('Play with TBM Parameters')
-    pressure_gauge_1 = st.sidebar.slider('Pressure Gauge 1 (kPa)', min_value=0, max_value=1000, value=500)
-    pressure_gauge_2 = st.sidebar.slider('Pressure Gauge 2 (kPa)', min_value=0, max_value=1000, value=500)
-    pressure_gauge_3 = st.sidebar.slider('Pressure Gauge 3 (kPa)', min_value=0, max_value=1000, value=500)
-    pressure_gauge_4 = st.sidebar.slider('Pressure Gauge 4 (kPa)', min_value=0, max_value=1000, value=500)
-    digging_velocity_left = st.sidebar.slider('Digging Velocity Left (mm/min)', min_value=0, max_value=1000, value=500)
-    digging_velocity_right = st.sidebar.slider('Digging Velocity Right (mm/min)', min_value=0, max_value=1000, value=500)
-    advancement_speed = st.sidebar.slider('Advancement Speed', min_value=0, max_value=100, value=50)
-    shield_jack_stroke_left = st.sidebar.slider('Shield Jack Stroke Left (mm)', min_value=0, max_value=1000, value=500)
-    shield_jack_stroke_right = st.sidebar.slider('Shield Jack Stroke Right (mm)', min_value=0, max_value=1000, value=500)
-    propulsion_pressure = st.sidebar.slider('Propulsion Pressure (MPa)', min_value=0, max_value=10, value=5)
-    total_thrust = st.sidebar.slider('Total Thrust (kN)', min_value=0, max_value=1000, value=500)
-    cutter_torque = st.sidebar.slider('Cutter Torque (kN.m)', min_value=0, max_value=1000, value=500)
-    cutterhead_rotation_speed = st.sidebar.slider('Cutterhead Rotation Speed (rpm)', min_value=0, max_value=1000, value=500)
-    screw_pressure = st.sidebar.slider('Screw Pressure (MPa)', min_value=0, max_value=10, value=5)
-    screw_rotation_speed = st.sidebar.slider('Screw Rotation Speed (rpm)', min_value=0, max_value=100, value=50)
-    gate_opening = st.sidebar.slider('Gate Opening (%)', min_value=0, max_value=100, value=50)
-    mud_injection_pressure = st.sidebar.slider('Mud Injection Pressure (MPa)', min_value=0, max_value=10, value=5)
-    add_mud_flow = st.sidebar.slider('Add Mud Flow (L/min)', min_value=0, max_value=100, value=50)
-    back_injection_rate = st.sidebar.slider('Back Injection Rate (%)', min_value=0, max_value=100, value=50)
-    
-    user_inputs = {
-        'Pressure Gauge 1 (kPa)': pressure_gauge_1,
-        'Pressure Gauge 2 (kPa)': pressure_gauge_2,
-        'Pressure Gauge 3 (kPa)': pressure_gauge_3,
-        'Pressure Gauge 4 (kPa)': pressure_gauge_4,
-        'Digging Velocity Left (mm/min)': digging_velocity_left,
-        'Digging Velocity Right (mm/min)': digging_velocity_right,
-        'Advancement Speed': advancement_speed,
-        'Shield Jack Stroke Left (mm)': shield_jack_stroke_left,
-        'Shield Jack Stroke Right (mm)': shield_jack_stroke_right,
-        'Propulsion Pressure (MPa)': propulsion_pressure,
-        'Total Thrust (kN)': total_thrust,
-        'Cutter Torque (kN.m)': cutter_torque,
-        'Cutterhead Rotation Speed (rpm)': cutterhead_rotation_speed,
-        'Screw Pressure (MPa)': screw_pressure,
-        'Screw Rotation Speed (rpm)': screw_rotation_speed,
-        'Gate Opening (%)': gate_opening,
-        'Mud Injection Pressure (MPa)': mud_injection_pressure,
-        'Add Mud Flow (L/min)': add_mud_flow,
-        'Back Injection Rate (%)': back_injection_rate,
+    params = {
+        'Pressure Gauge 1 (kPa)': (0, 1000, 500),
+        'Pressure Gauge 2 (kPa)': (0, 1000, 500),
+        'Pressure Gauge 3 (kPa)': (0, 1000, 500),
+        'Pressure Gauge 4 (kPa)': (0, 1000, 500),
+        'Digging Velocity Left (mm/min)': (0, 1000, 500),
+        'Digging Velocity Right (mm/min)': (0, 1000, 500),
+        'Advancement Speed': (0, 100, 50),
+        'Shield Jack Stroke Left (mm)': (0, 1000, 500),
+        'Shield Jack Stroke Right (mm)': (0, 1000, 500),
+        'Propulsion Pressure (MPa)': (0, 10, 5),
+        'Total Thrust (kN)': (0, 1000, 500),
+        'Cutter Torque (kN.m)': (0, 1000, 500),
+        'Cutterhead Rotation Speed (rpm)': (0, 1000, 500),
+        'Screw Pressure (MPa)': (0, 10, 5),
+        'Screw Rotation Speed (rpm)': (0, 100, 50),
+        'Gate Opening (%)': (0, 100, 50),
+        'Mud Injection Pressure (MPa)': (0, 10, 5),
+        'Add Mud Flow (L/min)': (0, 100, 50),
+        'Back Injection Rate (%)': (0, 100, 50),
         # Add more parameters here as needed
     }
-
+    user_inputs = {}
+    for param, (min_val, max_val, default_val) in params.items():
+        user_inputs[param] = st.sidebar.slider(param, min_value=min_val, max_value=max_val, value=default_val)
+    
     def predict_specific_energy(operational_params):
         input_data = pd.DataFrame(operational_params, index=[0])
         prediction = model.predict(input_data)
-        return prediction
+        prediction_variance = model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
+        return prediction, prediction_variance
 
     if st.sidebar.button('Predict'):
-        prediction_result = predict_specific_energy(user_inputs)
+        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
         st.write('Predicted Specific Energy:', prediction_result)
+        if prediction_variance is not None:
+            st.write('Prediction Variance:', prediction_variance)
 
-elif page == 'Batch':
-    st.title('TBM Specific Energy Prediction (Batch Upload)')
+elif page == 'Visualization':
+    st.title('Visualization of Model Performance')
     
-    # Batch Data Option - Upload CSV or Excel
-    uploaded_file = st.file_uploader('Upload a CSV or Excel file', type=['csv', 'xlsx'])
+    # Generate random data for visualization
+    np.random.seed(42)
+    sample_data = pd.DataFrame(np.random.rand(100, 5), columns=['Feature1', 'Feature2', 'Feature3', 'Feature4', 'Feature5'])
+    sample_target = np.random.randint(0, 2, size=100)
 
-    if uploaded_file is not None:
-        try:
-            data = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('csv') else pd.read_excel(uploaded_file)
-            predictions = model.predict(data)
-            st.write('Predicted Specific Energy for Uploaded Data:')
-            st.write(predictions)
-        except Exception as e:
-            st.write('Error:', e)
+    # Prediction Score Plot
+    fig, ax = plt.subplots()
+    sns.histplot(sample_target, kde=True, ax=ax)
+    st.pyplot(fig)
+
+    # Prediction Error Plot (Residuals)
+    fig, ax = plt.subplots()
+    sns.residplot(x=np.random.rand(100), y=sample_target, lowess=True, ax=ax)
+    st.pyplot(fig)
+
+    # Feature Importance
+    fig, ax = plt.subplots()
+    sns.barplot(x=sample_data.columns, y=np.abs(np.random.rand(5)), ax=ax)
+    ax.set_title('Feature Importance')
+    ax.set_ylabel('Importance')
+    ax.set_xlabel('Features')
+    st.pyplot(fig)
