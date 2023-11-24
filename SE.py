@@ -6,7 +6,8 @@ import seaborn as sns
 import numpy as np
 from pycaret.regression import *
 from pycaret.regression import setup, interpret_model
-
+# Set up the PyCaret environment
+regression.setup()
 # Load the trained PyCaret model
 model = joblib.load('setbm.pkl')
 
