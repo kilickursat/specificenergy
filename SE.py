@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 
 # Load the trained PyCaret model
-model = joblib.load('specific-energy (1).pkl')
+model = joblib.load('setbm.pkl')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
