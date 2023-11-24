@@ -35,7 +35,7 @@ if page == 'Online':
         'gate opening (%)': (0, 100, 50),
         'Mud injection pressure (MPa)': (0, 10, 5),
         'Add mud flow (L/min)': (0, 100, 50),
-        'Back injection rate (%)': (0, 100, 50),
+        'Back in injection rate (%)': (0, 100, 50),
     }
     user_inputs = {}
     for param, (min_val, max_val, default_val) in params.items():
