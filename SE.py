@@ -57,15 +57,10 @@ if page == 'Online':
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
 
-    # Function to predict specific energy based on user inputs
-    def predict_specific_energy(operational_params):
-        input_data = pd.DataFrame(operational_params, index=[0])
-        prediction = model.predict(input_data)
-        return prediction
-
-    # Check if 'user_inputs' is defined and make predictions
-    if 'user_inputs' in locals():
-        predicted_energy = predict_specific_energy(user_inputs)
+    # Check if 'user_inputs' and 'prediction_result' are available
+    if 'user_inputs' in st.session_state and 'prediction_result' in st.session_state:
+        user_inputs = st.session_state['user_inputs']
+        predicted_energy = st.session_state['prediction_result']
 
         # Plotting the PyCaret model's visualizations
         st.subheader('Model Visualizations')
