@@ -14,9 +14,29 @@ page = st.sidebar.selectbox('Choose a page', ['Online', 'Visualization'])
 
 if page == 'Online':
     st.title('TBM Specific Energy Prediction (Online)')
-    
-    # Online Data Input with sliders
-    st.sidebar.header('Play with TBM Parameters')
+
+    # Define variables for TBM parameters
+    Pressure_Gauge_1 = 'Pressure Gauge 1 (kPa)'
+    Pressure_Gauge_2 = 'Pressure Gauge 2 (kPa)'
+    Pressure_Gauge_3 = 'Pressure Gauge 3 (kPa)'
+    Pressure_Gauge_4 = 'Pressure Gauge 4 (kPa)'
+    Digging_Velocity_Left = 'Digging Velocity Left (mm/min)'
+    Digging_Velocity_Right = 'Digging Velocity Right (mm/min)'
+    Advancement_Speed = 'Advancement Speed'
+    Shield_Jack_Stroke_Left = 'Shield Jack Stroke Left (mm)'
+    Shield_Jack_Stroke_Right = 'Shield Jack Stroke Right (mm)'
+    Propulsion_Pressure = 'Propulsion Pressure (MPa)'
+    Total_Thrust = 'Total Thrust (kN)'
+    Cutter_Torque = 'Cutter Torque (kN.m)'
+    Cutterhead_Rotation_Speed = 'Cutterhead Rotation Speed (rpm)'
+    Screw_Pressure = 'Screw Pressure (MPa)'
+    Screw_Rotation_Speed = 'Screw Rotation Speed (rpm)'
+    Gate_Opening = 'Gate Opening (%)'
+    Mud_Injection_Pressure = 'Mud Injection Pressure (MPa)'
+    Add_Mud_Flow = 'Add Mud Flow (L/min)'
+    Back_Injection_Rate = 'Back Injection Rate (%)'
+
+    # Create a dictionary mapping variable names to strings
     params = {
         'Pressure Gauge 1 (kPa)': (0, 1000, 500),
         'Pressure Gauge 2 (kPa)': (0, 1000, 500),
@@ -37,7 +57,6 @@ if page == 'Online':
         'Mud Injection Pressure (MPa)': (0, 10, 5),
         'Add Mud Flow (L/min)': (0, 100, 50),
         'Back Injection Rate (%)': (0, 100, 50),
-        # Add more parameters here as needed
     }
     user_inputs = {}
     for param, (min_val, max_val, default_val) in params.items():
