@@ -56,6 +56,10 @@ if page == 'Online':
 
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
+    
+    user_inputs = {}
+    for param, (min_val, max_val, default_val) in params.items():
+        user_inputs[param] = st.sidebar.slider(param, min_value=min_val, max_value=max_val, value=default_val)
 
     # Function to predict specific energy based on user inputs
     def predict_specific_energy(operational_params):
