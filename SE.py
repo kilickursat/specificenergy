@@ -1,87 +1,48 @@
 import streamlit as st
 import pandas as pd
-from pycaret.regression import load_model, predict_model
-
-# Set page layout to 'wide'
-st.set_page_config(layout='wide')
+import joblib
 
 # Load the trained PyCaret model
-@st.cache_data
-def load_trained_model():
-    return load_model('specific-energy (1)')
+model = joblib.load('your_model.pkl')
 
-model = load_trained_model()
+# Main Page Navigation
+st.sidebar.title('Navigation')
+page = st.sidebar.selectbox('Choose a page', ['Online', 'Batch'])
 
-# SessionState to manage multiple pages
-class SessionState:
-    def __init__(self):
-        self.page = None
-
-# Initialize SessionState
-session_state = SessionState()
-
-# Define function to render the home page
-def render_homepage():
-    st.title('TBM Regression Model Prediction')
-    st.write('Please select an option from the sidebar.')
-
-# Function to get user input from sliders based on provided parameters and descriptive statistics
-def get_online_input():
-    st.sidebar.header('Online Input Parameters')
-
-    parameter_ranges = {
-        'Pressure gauge 1 (kPa)': (5.0, 210.3),
-        'Pressure gauge 2 (kPa)': (0.0, 259.0),
-        'Pressure gauge 3 (kPa)': (0.0, 175.4),
-        'Pressure gauge 4 (kPa)': (0.7, 426.9),
-        'Digging velocity left (mm/min)': (0.0, 336.0),
-        'Digging velocity right (mm/min)': (0.0, 239.0),
-        'advancement speed': (0.0, 287.5),
-        'Shield jack stroke left (mm)': (71.0, 3504.2),
-        'Shield jack stroke right (mm)': (98.0, 5946.1),
-        'Propulsion pressure (MPa)': (0.0, 31.5),
-        'Total thrust (kN)': (0.0, 7160.7),
-        'Cutter torque (kN.m)': (0.0, 694.9),
-        'Cutterhead rotation speed (rpm)': (0.0, 7.0),
-        'Screw pressure (MPa)': (-114.6, 7.7),
-        'Screw rotation speed (rpm)': (-1.2, 78.3),
-        'gate opening (%)': (0.0, 67.3),
-        'Mud injection pressure (MPa)': (0.01, 1.6),
-        'Add mud flow (L/min)': (0.0, 58.3),
-        'Back in injection rate (%)': (0.0, 560.6)
+if page == 'Online':
+    st.title('TBM Specific Energy Prediction (Online)')
+    
+    # Online Data Input with sliders
+    st.sidebar.header('Play with TBM Parameters')
+    cutterhead_rpm = st.sidebar.slider('Cutterhead RPM', min_value=0, max_value=1000, value=500)
+    thrust_force = st.sidebar.slider('Thrust Force (kN)', min_value=0, max_value=500, value=250)
+    
+    user_inputs = {
+        'Cutterhead RPM': cutterhead_rpm,
+        'Thrust Force (kN)': thrust_force,
+        # Add more parameters here as needed
     }
-    online_input = {}
-    for parameter, (min_val, max_val) in parameter_ranges.items():
-        online_input[parameter] = st.sidebar.slider(parameter, min_val, max_val, (min_val + max_val) / 2)
 
-    return pd.DataFrame([online_input])
+    def predict_specific_energy(operational_params):
+        input_data = pd.DataFrame(operational_params, index=[0])
+        prediction = model.predict(input_data)
+        return prediction
 
-# Function to make predictions
-def predict(model, input_df):
-    predictions_df = predict_model(estimator=model, data=input_df)
-    predictions = predictions_df['Label'][0]
-    return predictions
+    if st.sidebar.button('Predict'):
+        prediction_result = predict_specific_energy(user_inputs)
+        st.write('Predicted Specific Energy:', prediction_result)
 
-# Function to render the different pages
-def render_pages():
-    if session_state.page == "Home":
-        render_homepage()
-    elif session_state.page == "Online Input":
-        online_input_df = get_online_input()
-        st.subheader('Online User Input:')
-        st.write(online_input_df)
-        if st.button("Predict"):
-            online_prediction = predict(model, online_input_df)
-            st.subheader('Online Prediction:')
-            st.write(online_prediction)
+elif page == 'Batch':
+    st.title('TBM Specific Energy Prediction (Batch Upload)')
+    
+    # Batch Data Option - Upload CSV or Excel
+    uploaded_file = st.file_uploader('Upload a CSV or Excel file', type=['csv', 'xlsx'])
 
-# Create the Streamlit web app
-def main():
-    st.sidebar.title('Navigation')
-    pages = ["Home", "Online Input"]
-    session_state.page = st.sidebar.radio("Go to", pages, index=0)
-
-    render_pages()
-
-if __name__ == '__main__':
-    main()
+    if uploaded_file is not None:
+        try:
+            data = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('csv') else pd.read_excel(uploaded_file)
+            predictions = model.predict(data)
+            st.write('Predicted Specific Energy for Uploaded Data:')
+            st.write(predictions)
+        except Exception as e:
+            st.write('Error:', e)
