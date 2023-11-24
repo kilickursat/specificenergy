@@ -56,25 +56,37 @@ if page == 'Online':
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
     
-    # Generate random data for visualization
-    np.random.seed(42)
-    sample_data = pd.DataFrame(np.random.rand(100, 5), columns=['Feature1', 'Feature2', 'Feature3', 'Feature4', 'Feature5'])
-    sample_target = np.random.randint(0, 2, size=100)
+    # Function to predict specific energy based on user inputs
+    def predict_specific_energy(operational_params):
+        input_data = pd.DataFrame(operational_params, index=[0])
+        prediction = model.predict(input_data)
+        return prediction
+
+    # Make predictions using user inputs
+    predicted_energy = predict_specific_energy(user_inputs)
 
     # Prediction Score Plot
     fig, ax = plt.subplots()
-    sns.histplot(sample_target, kde=True, ax=ax)
+    sns.histplot(predicted_energy, kde=True, ax=ax)
     st.pyplot(fig)
 
     # Prediction Error Plot (Residuals)
     fig, ax = plt.subplots()
-    sns.residplot(x=np.random.rand(100), y=sample_target, lowess=True, ax=ax)
+    sns.residplot(x=np.linspace(0, 1, len(predicted_energy)), y=predicted_energy, lowess=True, ax=ax)
     st.pyplot(fig)
 
-    # Feature Importance
-    fig, ax = plt.subplots()
-    sns.barplot(x=sample_data.columns, y=np.abs(np.random.rand(5)), ax=ax)
-    ax.set_title('Feature Importance')
-    ax.set_ylabel('Importance')
-    ax.set_xlabel('Features')
-    st.pyplot(fig)
+    # Feature Importance (if available from your model)
+    # Replace this with your actual feature importance calculation based on your_data
+    # Replace 'feature_importance' with the actual feature importance data from your model
+    # Assuming you have a model attribute 'feature_importances_' containing feature importance values
+    if hasattr(model, 'feature_importances_'):
+        feature_importance = model.feature_importances_
+        fig, ax = plt.subplots()
+        sns.barplot(x=user_inputs.keys(), y=feature_importance, ax=ax)  # Plot feature importance
+        ax.set_title('Feature Importance')
+        ax.set_ylabel('Importance')
+        ax.set_xlabel('Features')
+        st.pyplot(fig)
+    else:
+        st.write("Feature importance is not available for this model.")
+
