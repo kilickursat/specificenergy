@@ -6,10 +6,9 @@ import seaborn as sns
 import numpy as np
 from pycaret.regression import *
 
-# Set up the PyCaret environment
-setup()
+
 # Load the trained PyCaret model
-model = joblib.load('setbm.pkl')
+model = load_model('setbm.pkl')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
