@@ -56,6 +56,7 @@ if page == 'Online':
 
 elif page == 'Visualization':
     st.title('Visualization of Model Performance')
+
     # Function to predict specific energy based on user inputs
     def predict_specific_energy(operational_params):
         input_data = pd.DataFrame(operational_params, index=[0])
@@ -66,41 +67,23 @@ elif page == 'Visualization':
     if 'user_inputs' in locals():
         predicted_energy = predict_specific_energy(user_inputs)
 
-        # Feature Importance (if available from your model)
-        if hasattr(model, 'feature_importances_'):
-            feature_importance = model.feature_importances_
-            fig, ax = plt.subplots()
-            sns.barplot(x=user_inputs.keys(), y=feature_importance, ax=ax)  # Plot feature importance
-            ax.set_title('Feature Importance')
-            ax.set_ylabel('Importance')
-            ax.set_xlabel('Features')
-            st.pyplot(fig)
-        else:
-            st.write("Feature importance is not available for this model.")
+        # Plotting the PyCaret model's visualizations
+        st.subheader('Model Visualizations')
 
-        # Predicted vs. Actual Plot
-        # Assuming 'target_column' is the name of your target column in the dataset
-        target_column = 'SE (MJ/m^3)'  # Replace 'Specific Energy' with your actual target column name
-        fig, ax = plt.subplots()
-        sns.scatterplot(x=predicted_energy, y=your_data[target_column], ax=ax)
-        ax.set_xlabel('Predicted Specific Energy')
-        ax.set_ylabel('Actual Specific Energy')
-        ax.set_title('Predicted vs Actual')
-        st.pyplot(fig)
+        # Plot feature importance
+        st.write('Feature Importance Plot')
+        plot_model(model, plot='feature', verbose=False)
 
-        # Learning Curve
-        # Replace 'X' and 'y' with your feature matrix and target variable
-        train_sizes, train_scores, test_scores = learning_curve(model, X, y, cv=5)
-        train_scores_mean = np.mean(train_scores, axis=1)
-        test_scores_mean = np.mean(test_scores, axis=1)
+        # Plot residuals
+        st.write('Residuals Plot')
+        plot_model(model, plot='residuals', verbose=False)
 
-        fig, ax = plt.subplots()
-        plt.plot(train_sizes, train_scores_mean, label='Training Score')
-        plt.plot(train_sizes, test_scores_mean, label='Cross-Validation Score')
-        plt.xlabel('Training examples')
-        plt.ylabel('Score')
-        plt.title('Learning Curve')
-        plt.legend()
-        st.pyplot(fig)
+        # Plot learning curve (if the model supports it)
+        st.write('Learning Curve')
+        try:
+            plot_model(model, plot='learning', verbose=False)
+        except Exception as e:
+            st.write("Learning Curve is not available for this model.")
+
     else:
         st.write("Please input TBM parameters in the 'Online' section first.")
