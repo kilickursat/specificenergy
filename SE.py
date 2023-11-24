@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load the trained PyCaret model
-model = joblib.load('your_model.pkl')
+model = joblib.load('setbm.pkl')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
