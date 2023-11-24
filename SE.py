@@ -53,32 +53,23 @@ if page == 'Online':
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
 
-
-elif page == 'Visualization':
-    st.title('Visualization of Model Performance')
-
-    # Check if 'user_inputs' and 'prediction_result' are available
-    if 'user_inputs' in st.session_state and 'prediction_result' in st.session_state:
-        user_inputs = st.session_state['user_inputs']
-        predicted_energy = st.session_state['prediction_result']
-
-        # Plotting the PyCaret model's visualizations
+        # Plotting the PyCaret model's visualizations based on prediction
         st.subheader('Model Visualizations')
 
         # Plot feature importance
         st.write('Feature Importance Plot')
-        plot_model(model, plot='feature', verbose=False, display_format='streamlit')
+        plot_model(model, plot='feature', verbose=False, display_format="streamlit")
 
         # Plot residuals
         st.write('Residuals Plot')
-        plot_model(model, plot='residuals', verbose=False, display_format='streamlit')
+        plot_model(model, plot='residuals', verbose=False,display_format="streamlit")
 
         # Plot learning curve (if the model supports it)
         st.write('Learning Curve')
         try:
-            plot_model(model, plot='learning', verbose=False,display_format='streamlit')
+            plot_model(model, plot='learning', verbose=False,display_format="streamlit")
         except Exception as e:
             st.write("Learning Curve is not available for this model.")
 
-    else:
-        st.write("Please input TBM parameters in the 'Online' section first.")
+        # Show the prediction result
+        st.write('Predicted Specific Energy:', prediction_result)
