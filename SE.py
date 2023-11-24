@@ -14,12 +14,46 @@ if page == 'Online':
     
     # Online Data Input with sliders
     st.sidebar.header('Play with TBM Parameters')
-    cutterhead_rpm = st.sidebar.slider('Cutterhead RPM', min_value=0, max_value=1000, value=500)
-    thrust_force = st.sidebar.slider('Thrust Force (kN)', min_value=0, max_value=500, value=250)
+    pressure_gauge_1 = st.sidebar.slider('Pressure Gauge 1 (kPa)', min_value=0, max_value=1000, value=500)
+    pressure_gauge_2 = st.sidebar.slider('Pressure Gauge 2 (kPa)', min_value=0, max_value=1000, value=500)
+    pressure_gauge_3 = st.sidebar.slider('Pressure Gauge 3 (kPa)', min_value=0, max_value=1000, value=500)
+    pressure_gauge_4 = st.sidebar.slider('Pressure Gauge 4 (kPa)', min_value=0, max_value=1000, value=500)
+    digging_velocity_left = st.sidebar.slider('Digging Velocity Left (mm/min)', min_value=0, max_value=1000, value=500)
+    digging_velocity_right = st.sidebar.slider('Digging Velocity Right (mm/min)', min_value=0, max_value=1000, value=500)
+    advancement_speed = st.sidebar.slider('Advancement Speed', min_value=0, max_value=100, value=50)
+    shield_jack_stroke_left = st.sidebar.slider('Shield Jack Stroke Left (mm)', min_value=0, max_value=1000, value=500)
+    shield_jack_stroke_right = st.sidebar.slider('Shield Jack Stroke Right (mm)', min_value=0, max_value=1000, value=500)
+    propulsion_pressure = st.sidebar.slider('Propulsion Pressure (MPa)', min_value=0, max_value=10, value=5)
+    total_thrust = st.sidebar.slider('Total Thrust (kN)', min_value=0, max_value=1000, value=500)
+    cutter_torque = st.sidebar.slider('Cutter Torque (kN.m)', min_value=0, max_value=1000, value=500)
+    cutterhead_rotation_speed = st.sidebar.slider('Cutterhead Rotation Speed (rpm)', min_value=0, max_value=1000, value=500)
+    screw_pressure = st.sidebar.slider('Screw Pressure (MPa)', min_value=0, max_value=10, value=5)
+    screw_rotation_speed = st.sidebar.slider('Screw Rotation Speed (rpm)', min_value=0, max_value=100, value=50)
+    gate_opening = st.sidebar.slider('Gate Opening (%)', min_value=0, max_value=100, value=50)
+    mud_injection_pressure = st.sidebar.slider('Mud Injection Pressure (MPa)', min_value=0, max_value=10, value=5)
+    add_mud_flow = st.sidebar.slider('Add Mud Flow (L/min)', min_value=0, max_value=100, value=50)
+    back_injection_rate = st.sidebar.slider('Back Injection Rate (%)', min_value=0, max_value=100, value=50)
     
     user_inputs = {
-        'Cutterhead RPM': cutterhead_rpm,
-        'Thrust Force (kN)': thrust_force,
+        'Pressure Gauge 1 (kPa)': pressure_gauge_1,
+        'Pressure Gauge 2 (kPa)': pressure_gauge_2,
+        'Pressure Gauge 3 (kPa)': pressure_gauge_3,
+        'Pressure Gauge 4 (kPa)': pressure_gauge_4,
+        'Digging Velocity Left (mm/min)': digging_velocity_left,
+        'Digging Velocity Right (mm/min)': digging_velocity_right,
+        'Advancement Speed': advancement_speed,
+        'Shield Jack Stroke Left (mm)': shield_jack_stroke_left,
+        'Shield Jack Stroke Right (mm)': shield_jack_stroke_right,
+        'Propulsion Pressure (MPa)': propulsion_pressure,
+        'Total Thrust (kN)': total_thrust,
+        'Cutter Torque (kN.m)': cutter_torque,
+        'Cutterhead Rotation Speed (rpm)': cutterhead_rotation_speed,
+        'Screw Pressure (MPa)': screw_pressure,
+        'Screw Rotation Speed (rpm)': screw_rotation_speed,
+        'Gate Opening (%)': gate_opening,
+        'Mud Injection Pressure (MPa)': mud_injection_pressure,
+        'Add Mud Flow (L/min)': add_mud_flow,
+        'Back Injection Rate (%)': back_injection_rate,
         # Add more parameters here as needed
     }
 
