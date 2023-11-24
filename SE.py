@@ -15,48 +15,27 @@ page = st.sidebar.selectbox('Choose a page', ['Online', 'Visualization'])
 if page == 'Online':
     st.title('TBM Specific Energy Prediction (Online)')
 
-    # Define variables for TBM parameters
-    Pressure_Gauge_1 = 'Pressure Gauge 1 (kPa)'
-    Pressure_Gauge_2 = 'Pressure Gauge 2 (kPa)'
-    Pressure_Gauge_3 = 'Pressure Gauge 3 (kPa)'
-    Pressure_Gauge_4 = 'Pressure Gauge 4 (kPa)'
-    Digging_Velocity_Left = 'Digging Velocity Left (mm/min)'
-    Digging_Velocity_Right = 'Digging Velocity Right (mm/min)'
-    Advancement_Speed = 'Advancement Speed'
-    Shield_Jack_Stroke_Left = 'Shield Jack Stroke Left (mm)'
-    Shield_Jack_Stroke_Right = 'Shield Jack Stroke Right (mm)'
-    Propulsion_Pressure = 'Propulsion Pressure (MPa)'
-    Total_Thrust = 'Total Thrust (kN)'
-    Cutter_Torque = 'Cutter Torque (kN.m)'
-    Cutterhead_Rotation_Speed = 'Cutterhead Rotation Speed (rpm)'
-    Screw_Pressure = 'Screw Pressure (MPa)'
-    Screw_Rotation_Speed = 'Screw Rotation Speed (rpm)'
-    Gate_Opening = 'Gate Opening (%)'
-    Mud_Injection_Pressure = 'Mud Injection Pressure (MPa)'
-    Add_Mud_Flow = 'Add Mud Flow (L/min)'
-    Back_Injection_Rate = 'Back Injection Rate (%)'
-
     # Create a dictionary mapping variable names to strings
     params = {
-        'Pressure Gauge 1 (kPa)': (0, 1000, 500),
-        'Pressure Gauge 2 (kPa)': (0, 1000, 500),
-        'Pressure Gauge 3 (kPa)': (0, 1000, 500),
-        'Pressure Gauge 4 (kPa)': (0, 1000, 500),
-        'Digging Velocity Left (mm/min)': (0, 1000, 500),
-        'Digging Velocity Right (mm/min)': (0, 1000, 500),
-        'Advancement Speed': (0, 100, 50),
-        'Shield Jack Stroke Left (mm)': (0, 1000, 500),
-        'Shield Jack Stroke Right (mm)': (0, 1000, 500),
-        'Propulsion Pressure (MPa)': (0, 10, 5),
-        'Total Thrust (kN)': (0, 1000, 500),
-        'Cutter Torque (kN.m)': (0, 1000, 500),
-        'Cutterhead Rotation Speed (rpm)': (0, 1000, 500),
-        'Screw Pressure (MPa)': (0, 10, 5),
-        'Screw Rotation Speed (rpm)': (0, 100, 50),
-        'Gate Opening (%)': (0, 100, 50),
-        'Mud Injection Pressure (MPa)': (0, 10, 5),
-        'Add Mud Flow (L/min)': (0, 100, 50),
-        'Back Injection Rate (%)': (0, 100, 50),
+        'Pressure gauge 1 (kPa)': (0, 1000, 500),
+        'Pressure gauge 2 (kPa)': (0, 1000, 500),
+        'Pressure gauge 3 (kPa)': (0, 1000, 500),
+        'Pressure gauge 4 (kPa)': (0, 1000, 500),
+        'Digging velocity left (mm/min)': (0, 1000, 500),
+        'Digging velocity right (mm/min)': (0, 1000, 500),
+        'advancement speed': (0, 100, 50),
+        'Shield jack stroke left (mm)': (0, 1000, 500),
+        'Shield jack stroke right (mm)': (0, 1000, 500),
+        'Propulsion pressure (MPa)': (0, 10, 5),
+        'Total thrust (kN)': (0, 1000, 500),
+        'Cutter torque (kN.m)': (0, 1000, 500),
+        'Cutterhead rotation speed (rpm)': (0, 1000, 500),
+        'Screw sressure (MPa)': (0, 10, 5),
+        'Screw rotation speed (rpm)': (0, 100, 50),
+        'gate opening (%)': (0, 100, 50),
+        'Mud injection pressure (MPa)': (0, 10, 5),
+        'Add mud flow (L/min)': (0, 100, 50),
+        'Back injection rate (%)': (0, 100, 50),
     }
     user_inputs = {}
     for param, (min_val, max_val, default_val) in params.items():
