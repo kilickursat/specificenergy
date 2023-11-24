@@ -8,7 +8,7 @@ from pycaret.regression import *
 
 
 # Load the trained PyCaret model
-model = load_model('setbm.pkl')
+model = load_model('setbm')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
