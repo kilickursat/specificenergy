@@ -49,38 +49,38 @@ if page == 'Online':
             model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
         )
         return prediction, prediction_variance
-            # Model visualizations
-    st.subheader('Model Visualizations')
-
-    try:
-        st.write('Feature Importance Plot')
-        fig = plot_model(model, plot='feature', verbose=False, display_format="streamlit")
-        if fig:
-            st.pyplot(fig)
-        else:
+                # Model visualizations
+        st.subheader('Model Visualizations')
+    
+        try:
+            st.write('Feature Importance Plot')
+            fig = plot_model(model, plot='feature', verbose=False, display_format="streamlit")
+            if fig:
+                st.pyplot(fig)
+            else:
+                st.write("Feature Importance Plot is not available for this model.")
+        except ValueError as e:
             st.write("Feature Importance Plot is not available for this model.")
-    except ValueError as e:
-        st.write("Feature Importance Plot is not available for this model.")
-
-    try:
-        st.write('Residuals Plot')
-        fig = plot_model(model, plot='residuals', verbose=False,display_format="streamlit")
-        if fig:
-            st.pyplot(fig)
-        else:
+    
+        try:
+            st.write('Residuals Plot')
+            fig = plot_model(model, plot='residuals', verbose=False,display_format="streamlit")
+            if fig:
+                st.pyplot(fig)
+            else:
+                st.write("Residuals Plot is not available for this model.")
+        except ValueError as e:
             st.write("Residuals Plot is not available for this model.")
-    except ValueError as e:
-        st.write("Residuals Plot is not available for this model.")
-
-    try:
-        st.write('Learning Curve')
-        fig = plot_model(model, plot='learning', verbose=False,display_format="streamlit")
-        if fig:
-            st.pyplot(fig)
-        else:
+    
+        try:
+            st.write('Learning Curve')
+            fig = plot_model(model, plot='learning', verbose=False,display_format="streamlit")
+            if fig:
+                st.pyplot(fig)
+            else:
+                st.write("Learning Curve is not available for this model.")
+        except ValueError as e:
             st.write("Learning Curve is not available for this model.")
-    except ValueError as e:
-        st.write("Learning Curve is not available for this model.")
 
 
     if st.sidebar.button('Predict'):
