@@ -71,4 +71,4 @@ def plot_regression_metrics(metrics_list, model, X_test, y_test):
 metrics_to_plot = ["Residuals Plot", "Prediction Error Plot", "Feature Importance"]
 
 # Assuming 'x_test' and 'y_test' are your test data
-plot_regression_metrics(metrics_to_plot, regression_model, X_test, y_test)
+plot_regression_metrics(metrics_to_plot, model, X_test, y_test)
