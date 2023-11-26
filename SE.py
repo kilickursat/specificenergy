@@ -49,14 +49,7 @@ if page == 'Online':
             model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
         )
         return prediction, prediction_variance
-
-    if st.sidebar.button('Predict'):
-        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
-        st.write('Predicted Specific Energy:', prediction_result)
-        if prediction_variance is not None:
-            st.write('Prediction Variance:', prediction_variance)
-
-    # Model visualizations
+            # Model visualizations
     st.subheader('Model Visualizations')
 
     try:
@@ -88,3 +81,11 @@ if page == 'Online':
             st.write("Learning Curve is not available for this model.")
     except ValueError as e:
         st.write("Learning Curve is not available for this model.")
+
+
+    if st.sidebar.button('Predict'):
+        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
+        st.write('Predicted Specific Energy:', prediction_result)
+        if prediction_variance is not None:
+            st.write('Prediction Variance:', prediction_variance)
+
