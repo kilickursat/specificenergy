@@ -49,43 +49,42 @@ if page == 'Online':
             model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
         )
         return prediction, prediction_variance
-                # Model visualizations
-        st.subheader('Model Visualizations')
-    
-        try:
-            st.write('Feature Importance Plot')
-            fig = plot_model(prediction, plot='feature', verbose=False, display_format="streamlit")
-            if fig:
-                st.pyplot(fig)
-            else:
-                st.write("Feature Importance Plot is not available for this model.")
-        except ValueError as e:
-            st.write("Feature Importance Plot is not available for this model.")
-    
-        try:
-            st.write('Residuals Plot')
-            fig = plot_model(prediction, plot='residuals', verbose=False,display_format="streamlit")
-            if fig:
-                st.pyplot(fig)
-            else:
-                st.write("Residuals Plot is not available for this model.")
-        except ValueError as e:
-            st.write("Residuals Plot is not available for this model.")
-    
-        try:
-            st.write('Learning Curve')
-            fig = plot_model(prediction, plot='learning', verbose=False,display_format="streamlit")
-            if fig:
-                st.pyplot(fig)
-            else:
-                st.write("Learning Curve is not available for this model.")
-        except ValueError as e:
-            st.write("Learning Curve is not available for this model.")
 
+    # Model visualizations moved outside the function
+    st.subheader('Model Visualizations')
+    
+    try:
+        st.write('Feature Importance Plot')
+        fig = plot_model(model, plot='feature', verbose=False, display_format="streamlit")
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Feature Importance Plot is not available for this model.")
+    except ValueError as e:
+        st.write("Feature Importance Plot is not available for this model.")
+    
+    try:
+        st.write('Residuals Plot')
+        fig = plot_model(model, plot='residuals', verbose=False, display_format="streamlit")
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Residuals Plot is not available for this model.")
+    except ValueError as e:
+        st.write("Residuals Plot is not available for this model.")
+    
+    try:
+        st.write('Learning Curve')
+        fig = plot_model(model, plot='learning', verbose=False, display_format="streamlit")
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Learning Curve is not available for this model.")
+    except ValueError as e:
+        st.write("Learning Curve is not available for this model.")
 
     if st.sidebar.button('Predict'):
         prediction_result, prediction_variance = predict_specific_energy(user_inputs)
         st.write('Predicted Specific Energy:', prediction_result)
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
-
