@@ -51,24 +51,31 @@ if page == 'Online':
         )
         return prediction, prediction_variance
 
-def plot_regression_metrics(metrics_list, model, X_test, y_test):
-    for metric in metrics_list:
-        if metric == "Residuals Plot":
-            st.subheader("Residuals Plot")
-            plot_model(model, plot='residuals')
-            st.pyplot()
-        elif metric == "Prediction Error Plot":
-            st.subheader("Prediction Error Plot")
-            plot_model(model, plot='error')
-            st.pyplot()
-        elif metric == "Feature Importance":
-            st.subheader("Feature Importance")
-            plot_model(model, plot='feature')
-            st.pyplot()
-        # Add more elif conditions for other regression metrics if needed
+    if st.sidebar.button('Predict'):
+        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
+        st.write('Predicted Specific Energy:', prediction_result)
+        if prediction_variance is not None:
+            st.write('Prediction Variance:', prediction_variance)
 
-# Example usage in Streamlit app
-metrics_to_plot = ["Residuals Plot", "Prediction Error Plot", "Feature Importance"]
+        # Model visualizations
+        st.subheader('Model Visualizations')
 
-# Assuming 'x_test' and 'y_test' are your test data
-plot_regression_metrics(metrics_to_plot, model, X_test, y_test)
+        # Add try-except blocks for each plot
+        try:
+            st.write('Feature Importance Plot')
+            plot_model(model, plot='feature', verbose=False,display_format= 'streamlit')
+        except ValueError as e:
+            st.write("Feature Importance Plot is not available for this model.")
+
+        try:
+            st.write('Residuals Plot')
+            plot_model(model, plot='residuals', verbose=False,display_format= 'streamlit')
+        except ValueError as e:
+            st.write("Residuals Plot is not available for this model.")
+
+        try:
+            st.write('Learning Curve')
+            plot_model(model, plot='learning', verbose=False,display_format= 'streamlit')
+        except ValueError as e:
+            st.write("Learning Curve is not available for this model.")
+
