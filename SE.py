@@ -8,61 +8,50 @@ from pycaret.regression import *
 
 model = joblib.load('setbm.pkl')
 
+def predict(model, input_df):
+    predictions_df = predict_model(estimator=model, data=input_df)
+    predictions = predictions_df['Label'][0]
+    return predictions
+    
 # Main Page Navigation
 st.sidebar.title('Navigation')
 page = st.sidebar.selectbox('Choose a page', ['Online', 'Visualization'])
+def run():
+    if page == 'Online':
+        st.title('TBM Specific Energy Prediction (Online)')
 
-if page == 'Online':
-    st.title('TBM Specific Energy Prediction (Online)')
+        # Create a dictionary mapping variable names to strings
+        params = {
+            'Pressure gauge 1 (kPa)': (0, 1000, 500),
+            'Pressure gauge 2 (kPa)': (0, 1000, 500),
+            'Pressure gauge 3 (kPa)': (0, 1000, 500),
+            'Pressure gauge 4 (kPa)': (0, 1000, 500),
+            'Digging velocity left (mm/min)': (0, 1000, 500),
+            'Digging velocity right (mm/min)': (0, 1000, 500),
+            'advancement speed ': (0, 100, 50),
+            'Shield jack stroke left (mm)': (0, 1000, 500),
+            'Shield jack stroke rigth (mm)': (0, 1000, 500),
+            'Propulsion pressure (MPa)': (0, 10, 5),
+            'Total thrust (kN)': (0, 1000, 500),
+            'Cutter torque (kN.m)': (0, 1000, 500),
+            'Cutterhead rotation speed (rpm)': (0, 1000, 500),
+            'Screw pressure (MPa)': (0, 10, 5),
+            'Screw rotation speed (rpm)': (0, 100, 50),
+            'gate opening (%)': (0, 100, 50),
+            'Mud injection pressure (MPa)': (0, 10, 5),
+            'Add mud flow (L/min)': (0, 100, 50),
+            'Back in injection rate (%)': (0, 100, 50),
+        }
+        user_inputs = {}
+        for param, (min_val, max_val, default_val) in params.items():
+            user_inputs[param] = st.sidebar.slider(param, min_value=min_val, max_value=max_val, value=default_val)
 
-    # Create a dictionary mapping variable names to strings
-    params = {
-        'Pressure gauge 1 (kPa)': (0, 1000, 500),
-        'Pressure gauge 2 (kPa)': (0, 1000, 500),
-        'Pressure gauge 3 (kPa)': (0, 1000, 500),
-        'Pressure gauge 4 (kPa)': (0, 1000, 500),
-        'Digging velocity left (mm/min)': (0, 1000, 500),
-        'Digging velocity right (mm/min)': (0, 1000, 500),
-        'advancement speed ': (0, 100, 50),
-        'Shield jack stroke left (mm)': (0, 1000, 500),
-        'Shield jack stroke rigth (mm)': (0, 1000, 500),
-        'Propulsion pressure (MPa)': (0, 10, 5),
-        'Total thrust (kN)': (0, 1000, 500),
-        'Cutter torque (kN.m)': (0, 1000, 500),
-        'Cutterhead rotation speed (rpm)': (0, 1000, 500),
-        'Screw pressure (MPa)': (0, 10, 5),
-        'Screw rotation speed (rpm)': (0, 100, 50),
-        'gate opening (%)': (0, 100, 50),
-        'Mud injection pressure (MPa)': (0, 10, 5),
-        'Add mud flow (L/min)': (0, 100, 50),
-        'Back in injection rate (%)': (0, 100, 50),
-    }
-    user_inputs = {}
-    for param, (min_val, max_val, default_val) in params.items():
-        user_inputs[param] = st.sidebar.slider(param, min_value=min_val, max_value=max_val, value=default_val)
     
-    def predict_specific_energy(operational_params):
-        input_data = pd.DataFrame(operational_params, index=[0])
-        prediction = model.predict(input_data)
-        prediction_variance = (
-            model.predict_proba(input_data)
-            if hasattr(model, "predict_proba")
-            else None
-        )
-        return prediction, prediction_variance
-
-    if st.sidebar.button('Predict'):
-        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
-        st.write('Predicted Specific Energy:', prediction_result)
-        if prediction_variance is not None:
-            st.write('Prediction Variance:', prediction_variance)
-            
-def predict_and_visualize(user_inputs, model):
-    if st.sidebar.button('Predict'):
-        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
-        st.write('Predicted Specific Energy:', prediction_result)
-        if prediction_variance is not None:
-            st.write('Prediction Variance:', prediction_variance)
+        if st.sidebar.button('Predict'):
+            prediction_result, prediction_variance = predict_specific_energy(user_inputs)
+            st.write('Predicted Specific Energy:', prediction_result)
+            if prediction_variance is not None:
+                st.write('Prediction Variance:', prediction_variance)
 
         # Model visualizations
         st.subheader('Model Visualizations')
@@ -87,3 +76,6 @@ def predict_and_visualize(user_inputs, model):
         # Model visualizations
         st.subheader('Model Visualizations')
 
+
+if __name__ == '__main__':
+    run()
