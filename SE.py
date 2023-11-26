@@ -62,20 +62,29 @@ if page == 'Online':
     try:
         st.write('Feature Importance Plot')
         fig = plot_model(model, plot='feature', verbose=False)
-        st.pyplot(fig)
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Feature Importance Plot is not available for this model.")
     except ValueError as e:
         st.write("Feature Importance Plot is not available for this model.")
 
     try:
         st.write('Residuals Plot')
         fig = plot_model(model, plot='residuals', verbose=False)
-        st.pyplot(fig)
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Residuals Plot is not available for this model.")
     except ValueError as e:
         st.write("Residuals Plot is not available for this model.")
 
     try:
         st.write('Learning Curve')
         fig = plot_model(model, plot='learning', verbose=False)
-        st.pyplot(fig)
+        if fig:
+            st.pyplot(fig)
+        else:
+            st.write("Learning Curve is not available for this model.")
     except ValueError as e:
         st.write("Learning Curve is not available for this model.")
