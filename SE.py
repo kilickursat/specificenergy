@@ -54,7 +54,7 @@ if page == 'Online':
     
         try:
             st.write('Feature Importance Plot')
-            fig = plot_model(model, plot='feature', verbose=False, display_format="streamlit")
+            fig = plot_model(prediction, plot='feature', verbose=False, display_format="streamlit")
             if fig:
                 st.pyplot(fig)
             else:
@@ -64,7 +64,7 @@ if page == 'Online':
     
         try:
             st.write('Residuals Plot')
-            fig = plot_model(model, plot='residuals', verbose=False,display_format="streamlit")
+            fig = plot_model(prediction, plot='residuals', verbose=False,display_format="streamlit")
             if fig:
                 st.pyplot(fig)
             else:
@@ -74,7 +74,7 @@ if page == 'Online':
     
         try:
             st.write('Learning Curve')
-            fig = plot_model(model, plot='learning', verbose=False,display_format="streamlit")
+            fig = plot_model(prediction, plot='learning', verbose=False,display_format="streamlit")
             if fig:
                 st.pyplot(fig)
             else:
