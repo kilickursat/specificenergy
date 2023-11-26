@@ -56,14 +56,27 @@ if page == 'Online':
         st.write('Predicted Specific Energy:', prediction_result)
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
-            
-def predict_and_visualize(user_inputs, model):
-    if st.sidebar.button('Predict'):
-        prediction_result, prediction_variance = predict_specific_energy(user_inputs)
-        st.write('Predicted Specific Energy:', prediction_result)
-        if prediction_variance is not None:
-            st.write('Prediction Variance:', prediction_variance)
+                # Model visualizations
+        st.subheader('Model Visualizations')
+        try:
+            st.write('Feature Importance Plot')
+            plot_model(model, plot='feature', verbose=False, display_format='streamlit')
+        except ValueError as e:
+            st.write("Feature Importance Plot is not available for this model.")
 
+        try:
+            st.write('Residuals Plot')
+            plot_model(model, plot='residuals', verbose=False, display_format='streamlit')
+        except ValueError as e:
+            st.write("Residuals Plot is not available for this model.")
+
+        try:
+            st.write('Learning Curve')
+            plot_model(model, plot='learning', verbose=False, display_format='streamlit')
+        except ValueError as e:
+            st.write("Learning Curve is not available for this model.")
+        # Model visualizations
+        st.subheader('Model Visualizations')
         # Model visualizations
         st.subheader('Model Visualizations')
 
@@ -86,3 +99,4 @@ def predict_and_visualize(user_inputs, model):
             st.write("Learning Curve is not available for this model.")
         # Model visualizations
         st.subheader('Model Visualizations')
+
