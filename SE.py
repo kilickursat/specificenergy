@@ -44,7 +44,11 @@ if page == 'Online':
     def predict_specific_energy(operational_params):
         input_data = pd.DataFrame(operational_params, index=[0])
         prediction = model.predict(input_data)
-        prediction_variance = model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
+        prediction_variance = (
+            model.predict_proba(input_data)
+            if hasattr(model, "predict_proba")
+            else None
+        )
         return prediction, prediction_variance
 
     if st.sidebar.button('Predict'):
@@ -53,23 +57,24 @@ if page == 'Online':
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
 
-        # Plotting the PyCaret model's visualizations based on prediction
+        # Model visualizations
         st.subheader('Model Visualizations')
 
-        # Plot feature importance
-        st.write('Feature Importance Plot')
-        plot_model(model, plot='feature', verbose=False, display_format="streamlit")
-
-        # Plot residuals
-        st.write('Residuals Plot')
-        plot_model(model, plot='residuals', verbose=False,display_format="streamlit")
-
-        # Plot learning curve (if the model supports it)
-        st.write('Learning Curve')
+        # Add try-except blocks for each plot
         try:
-            plot_model(model, plot='learning', verbose=False,display_format="streamlit")
-        except Exception as e:
-            st.write("Learning Curve is not available for this model.")
+            st.write('Feature Importance Plot')
+            plot_model(model, plot='feature', verbose=False)
+        except ValueError as e:
+            st.write("Feature Importance Plot is not available for this model.")
 
-        # Show the prediction result
-        st.write('Predicted Specific Energy:', prediction_result)
+        try:
+            st.write('Residuals Plot')
+            plot_model(model, plot='residuals', verbose=False)
+        except ValueError as e:
+            st.write("Residuals Plot is not available for this model.")
+
+        try:
+            st.write('Learning Curve')
+            plot_model(model, plot='learning', verbose=False)
+        except ValueError as e:
+            st.write("Learning Curve is not available for this model.")
