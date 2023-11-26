@@ -60,19 +60,19 @@ if page == 'Online':
         st.subheader('Model Visualizations')
     try:
         st.write('Feature Importance Plot')
-        plot_model(prediction, plot='feature', verbose=False, display_format='streamlit')
+        plot_model(predict_specific_energy, plot='feature', verbose=False, display_format='streamlit')
     except ValueError as e:
         st.write("Feature Importance Plot is not available for this model.")
 
     try:
         st.write('Residuals Plot')
-        plot_model(prediction, plot='residuals', verbose=False, display_format='streamlit')
+        plot_model(predict_specific_energy, plot='residuals', verbose=False, display_format='streamlit')
     except ValueError as e:
         st.write("Residuals Plot is not available for this model.")
 
     try:
         st.write('Learning Curve')
-        plot_model(prediction, plot='learning', verbose=False, display_format='streamlit')
+        plot_model(predict_specific_energy, plot='learning', verbose=False, display_format='streamlit')
     except ValueError as e:
         st.write("Learning Curve is not available for this model.")
 
