@@ -7,7 +7,7 @@ import numpy as np
 from pycaret.regression import *
 
 model = joblib.load('setbm.pkl')
-setup()
+
 # Main Page Navigation
 st.sidebar.title('Navigation')
 page = st.sidebar.selectbox('Choose a page', ['Online', 'Visualization'])
