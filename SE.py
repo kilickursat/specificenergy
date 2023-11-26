@@ -5,6 +5,21 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from pycaret.regression import *
+from streamlit.report_thread import get_report_ctx
+from streamlit.server.server import Server
+
+def get_session_id():
+    session_id = get_report_ctx().session_id
+    session = Server.get_current()._get_session_info(session_id).session
+    return session_id, session
+
+class SessionState(object):
+    def __init__(self, **kwargs):
+        for key, val in kwargs.items():
+            setattr(self, key, val)
+
+state = SessionState(first_run=True)
+
 
 model = joblib.load('setbm.pkl')
 
@@ -59,12 +74,14 @@ if page == 'Online':
             
 def predict_and_visualize(user_inputs, model):
     if st.sidebar.button('Predict'):
+        state.first_run = not state.first_run  # Toggle the state variable to trigger rerun
         prediction_result, prediction_variance = predict_specific_energy(user_inputs)
         st.write('Predicted Specific Energy:', prediction_result)
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
 
-        # Model visualizations
+    # Model visualizations
+    if not state.first_run:
         st.subheader('Model Visualizations')
 
         try:
@@ -84,7 +101,3 @@ def predict_and_visualize(user_inputs, model):
             plot_model(model, plot='learning', verbose=False, display_format='streamlit')
         except ValueError as e:
             st.write("Learning Curve is not available for this model.")
-        # Model visualizations
-        st.subheader('Model Visualizations')
-
-
