@@ -6,7 +6,7 @@ import seaborn as sns
 import numpy as np
 from pycaret.regression import *
 
-model = joblib.load('setbm.pkl')
+model = joblib.load('TBM-energy.pkl')
 
 # Main Page Navigation
 st.sidebar.title('Navigation')
