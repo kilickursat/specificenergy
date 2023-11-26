@@ -37,17 +37,16 @@ if page == 'Online':
         'Add mud flow (L/min)': (0, 100, 50),
         'Back in injection rate (%)': (0, 100, 50),
     }
+
     user_inputs = {}
     for param, (min_val, max_val, default_val) in params.items():
         user_inputs[param] = st.sidebar.slider(param, min_value=min_val, max_value=max_val, value=default_val)
-    
+
     def predict_specific_energy(operational_params):
         input_data = pd.DataFrame(operational_params, index=[0])
         prediction = model.predict(input_data)
         prediction_variance = (
-            model.predict_proba(input_data)
-            if hasattr(model, "predict_proba")
-            else None
+            model.predict_proba(input_data) if hasattr(model, "predict_proba") else None
         )
         return prediction, prediction_variance
 
@@ -56,25 +55,27 @@ if page == 'Online':
         st.write('Predicted Specific Energy:', prediction_result)
         if prediction_variance is not None:
             st.write('Prediction Variance:', prediction_variance)
-                # Model visualizations
-        st.subheader('Model Visualizations')
+
+    # Model visualizations
+    st.subheader('Model Visualizations')
+
     try:
         st.write('Feature Importance Plot')
-        plot_model(predict_specific_energy, plot='feature', verbose=False, display_format='streamlit')
+        fig = plot_model(predict_specific_energy, plot='feature', verbose=False)
+        st.pyplot(fig)
     except ValueError as e:
         st.write("Feature Importance Plot is not available for this model.")
 
     try:
         st.write('Residuals Plot')
-        plot_model(predict_specific_energy, plot='residuals', verbose=False, display_format='streamlit')
+        fig = plot_model(predict_specific_energy, plot='residuals', verbose=False)
+        st.pyplot(fig)
     except ValueError as e:
         st.write("Residuals Plot is not available for this model.")
 
     try:
         st.write('Learning Curve')
-        plot_model(predict_specific_energy, plot='learning', verbose=False, display_format='streamlit')
+        fig = plot_model(predict_specific_energy, plot='learning', verbose=False)
+        st.pyplot(fig)
     except ValueError as e:
         st.write("Learning Curve is not available for this model.")
-
-
-
