@@ -63,7 +63,7 @@ if page == 'Online':
         # Add try-except blocks for each plot
         try:
             st.write('Feature Importance Plot')
-            plot_model(model, plot='feature', verbose=False,display_format= 'streamlit')
+            st.pyplot(plot_model(model, plot='feature', verbose=False,display_format= 'streamlit'))
         except ValueError as e:
             st.write("Feature Importance Plot is not available for this model.")
 
